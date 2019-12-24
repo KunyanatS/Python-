@@ -1,0 +1,92 @@
+# Python-
+Code Python Basic
+
+import pandas as pd
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Name is
+APP_PATH="/content/drive/My Drive/Python 8-12-2019 (Pandas)/17k-apple-app-store-strategy-games.zip"
+# Read file 
+df_apps = pd.read_csv(APP_PATH)
+# Checks numbers Rows and Columns
+df_apps.shape
+# Checks Name Columns
+df_apps.columns
+# Shows first 5 rows in Python just strat 
+df_apps.head()
+# Show last 3 rows
+df_apps.tail(3)
+# Random 3 rows
+df_apps.sample(3)
+# Cheack Basic stat
+df_apps.info()
+# RUN Data Types : Inf and float only
+df_apps.describe()
+# Row:top = mood
+df_apps.describe(include="all")
+# Choose Rows 5 to 9
+df_apps[5:10]
+# Choose Rows and Columns
+df_apps[["Name" , "Subtitle"]][5:12]
+# Select apps rating > 4.5 AND numple rate people > 10000
+df_apps[(df_apps['Average User Rating'] > 4.5) &
+(df_apps['User Rating Count'] > 10000)]
+# Select apps rating > 4.5 OR numple rate people > 10000
+df_apps[(df_apps['Average User Rating'] > 4.5) |
+(df_apps['User Rating Count'] > 10000)]
+# Names , Create table
+df_cnt_genres = pd.Series.to_frame(df_apps["Genres"].value_counts())
+# Create Graph
+df_cnt_genres.plot(kind="bar")
+# Create Graph DATA first 10 rows
+df_cnt_genres[ : 10].plot(kind="bar")
+
+
+# Prices / User Rating Count
+df_apps['Price'] / df_apps['User Rating Count']
+# AS Names for Prices / User Rating Count
+df_apps['Price per uesrs'] = df_apps['Price'] / df_apps['User Rating Count']
+# Create table Price per uesrs' , 'Price' , 'User Rating Count frist 3 rows
+df_apps[['Price per uesrs' , 'Price' , 'User Rating Count']][:3]
+# Price ascendind=False Descending order
+df_apps[['Name' , 'Price']].sort_values(by="Price" , ascending=False)
+# Price ascendind=False Descending order frist 10 rows
+df_apps[['Name' , 'Price']].sort_values(by="Price" , ascending=False)[:10]
+# Create table 'Name' , 'Price' , 'Average User Rating' , 'User Rating Count'
+# Price ascendind=False Descending order frist 10 rows
+df_apps[['Name' , 'Price' , 'Average User Rating' , 'User Rating Count']].sort_values(by="Price" , ascending=False)[:10]
+
+# Enter 0 as missing value(NA)
+df_apps[['Average User Rating' , 'User Rating Count']].fillna(0)
+# AS Name and  Enter 0 as missing value(NA)
+df_apps[['Average User Rating' , 'User Rating Count']] = df_apps[['Average User Rating' , 'User Rating Count']].fillna(0)
+# Create table 'Name' , 'Price' , 'Average User Rating' , 'User Rating Count' 
+# Enter 0 as missing value(NA)
+# ascendind=False Descending order frist 10 rows
+df_apps[['Name' , 'Price' , 'Average User Rating' , 'User Rating Count']].sort_values(by=['Price' , 'Average User Rating' , 'User Rating Count'] , ascending=False)[:10]
+# Stat Basic 'Average User Rating' , 'User Rating Count'
+df_apps[['Average User Rating' , 'User Rating Count']].describe()
+
+# Scaler (Nomalization)
+from sklearn.preprocessing import MinMaxScaler
+# Scaler 1-10
+Min_Max_object = MinMaxScaler((0,10))
+df_apps[['Price' , 'Average User Rating' , 'User Rating Count']] = Min_Max_object.fit_transform(df_apps[['Price' , 'Average User Rating' , 'User Rating Count']])
+df_apps[['Price' , 'Average User Rating' , 'User Rating Count']]
+# ฺStat Basic 'Average User Rating' , 'User Rating Count' in Scaler 1-10 
+df_apps[['Price' , 'Average User Rating' , 'User Rating Count']].describe()
+# mean all columns 'Price' , 'Average User Rating' , 'User Rating Count'
+df_apps[['Price' , 'Average User Rating' , 'User Rating Count']].mean()
+# mean all rows for 'Price' , 'Average User Rating' , 'User Rating Count'
+df_apps[['Price' , 'Average User Rating' , 'User Rating Count']].mean(axis=1)
+# "avg_luxe_sc" ascendind=False Descending order frist 10 rows
+df_apps[['Name' , 'avg_luxe_sc']].sort_values(by="avg_luxe_sc" , ascending=False)[:10]
+# AS name 
+df_luxe_apps = df_apps[['Name' , 'avg_luxe_sc']].sort_values(by="avg_luxe_sc" , ascending=False)
+df_luxe_apps
+
+# Create Graph histogram
+df_luxe_apps[:10].plot(kind='hist')
+
